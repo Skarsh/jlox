@@ -2,7 +2,6 @@ package test;
 
 import com.craftinginterpreters.lox.Scanner;
 import com.craftinginterpreters.lox.Token;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -132,6 +131,46 @@ class ScannerTest {
         expectedTokens.add(new Token(EQUAL, "=", null, 0));
         expectedTokens.add(new Token(BANG, "!", null, 0));
         expectedTokens.add(new Token(EOF, "", null, 22));
+
+        for (int i = 0; i < actualTokens.size(); i++) {
+            assertTrue(actualTokens.get(i).compare(expectedTokens.get(i)));
+        }
+    }
+
+    @Test
+    public void testScanStrings() throws IOException {
+        Path fileName = Path.of("./jlox-tests/scanning/strings.lox");
+        String source = Files.readString(fileName);
+
+        this.scanner = new Scanner(source);
+        this.scanner.scanTokens();
+        List<Token> actualTokens = this.scanner.getTokens();
+
+        List<Token> expectedTokens = new ArrayList<>();
+        expectedTokens.add(new Token(STRING, "\"\"", "", 0));
+        expectedTokens.add(new Token(STRING, "\"string\"", "string", 1));
+        expectedTokens.add(new Token(EOF, "", null, 5));
+
+        for (int i = 0; i < actualTokens.size(); i++) {
+            assertTrue(actualTokens.get(i).compare(expectedTokens.get(i)));
+        }
+    }
+
+    @Test
+    public void testScanWhitespace() throws IOException {
+        Path fileName = Path.of("./jlox-tests/scanning/whitespace.lox");
+        String source = Files.readString(fileName);
+
+        this.scanner = new Scanner(source);
+        this.scanner.scanTokens();
+        List<Token> actualTokens = this.scanner.getTokens();
+
+        List<Token> expectedTokens = new ArrayList<>();
+        expectedTokens.add(new Token(IDENTIFIER, "space", null, 0));
+        expectedTokens.add(new Token(IDENTIFIER, "tabs", null, 0));
+        expectedTokens.add(new Token(IDENTIFIER, "newlines", null, 0));
+        expectedTokens.add(new Token(IDENTIFIER, "end", null, 5));
+        expectedTokens.add(new Token(EOF, "", null, 11));
 
         for (int i = 0; i < actualTokens.size(); i++) {
             assertTrue(actualTokens.get(i).compare(expectedTokens.get(i)));

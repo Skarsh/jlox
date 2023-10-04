@@ -12,6 +12,7 @@ public class Scanner {
     private int start;
     private int current;
     private int line;
+
     private final List<Token> tokens = new ArrayList<>();
     private static final Map<String, TokenType> keywords;
 
@@ -35,7 +36,7 @@ public class Scanner {
         keywords.put("while", WHILE);
     }
 
-    Scanner(String source) {
+    public Scanner(String source) {
         this.source = source;
     }
 
@@ -192,6 +193,22 @@ public class Scanner {
 
     private boolean isAlphaNumeric(char c) {
         return isAlpha(c) || isDigit(c);
+    }
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public int getLine() {
+        return line;
     }
 }
 

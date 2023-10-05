@@ -1,4 +1,4 @@
-package test;
+package com.craftinginterpreters.test;
 
 import com.craftinginterpreters.lox.Scanner;
 import com.craftinginterpreters.lox.Token;
